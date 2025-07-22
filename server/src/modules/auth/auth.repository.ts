@@ -1,6 +1,6 @@
-import db from '../../db/knex';
+import db from "../../db/knex";
 import { v4 as uuidv4 } from "uuid";
-import { CreateUserInput } from '../../shared/types/user';
+import { CreateUserInput } from "../../shared/types/user";
 
 export const createUser = async (user: CreateUserInput) => {
   await db("users").insert({
@@ -8,5 +8,12 @@ export const createUser = async (user: CreateUserInput) => {
     ...user,
   });
 };
-export const findUserByEmail = (email: string) =>
-  db('users').where({ email }).first();
+export const findUserByEmail = async (email: string) => {
+  return await db("users").where({ email }).first();
+};
+
+export const updateLoggedInAt = async (userId: string) => {
+  return await db("users")
+    .where({ id: userId })
+    .update({ logged_in_at: new Date() });
+};
