@@ -5,5 +5,14 @@ const app = express();
 app.use(express.json());
 
 //link routes here
-app.use(authRoutes);
+const apiRouter = express.Router();
+
+apiRouter.use(authRoutes);
+
+app.use("/api", apiRouter);
+
+app.get("/", (_req, res) => {
+  res.send("ok");
+});
+
 export default app;

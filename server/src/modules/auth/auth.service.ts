@@ -2,16 +2,19 @@ import bcrypt from "bcryptjs";
 import { signToken } from "../../shared/utils/jwt";
 import { createUser, findUserByEmail } from "./auth.repository";
 import { isStrongPassword, isValidEmail } from "../../shared/utils/validators";
+import { UserRole, validRoles } from "../../shared/utils/lib";
 
-export const signup = async ({
-  email,
-  password,
-  role,
-}: {
-  email: string;
-  password: string;
-  role: string;
+export const signup = async (data: {
+  email?: string;
+  password?: string;
+  role?: string;
 }) => {
+  if (!data) {
+    throw new Error("Input data is required");
+  }
+
+  const { email, password, role } = data;
+
   if (!email || !password || !role) {
     throw new Error("All fields are required");
   }
@@ -26,8 +29,15 @@ export const signup = async ({
     );
   }
 
+  if (!validRoles.includes(role as UserRole)) {
+    throw new Error("Invalid role");
+  }
+
+  const user = await findUserByEmail(email);
+  if (user) throw new Error("User already exists");
+
   const hash = await bcrypt.hash(password, 10);
-  await createUser({ email, password: hash, role });
+  await createUser({ email, password: hash, role: role as UserRole });
 };
 
 export const login = async ({
