@@ -17,3 +17,7 @@ export const updateLoggedInAt = async (userId: string) => {
     .where({ id: userId })
     .update({ logged_in_at: new Date() });
 };
+
+export const findUserById = async (userId: string) => {
+  return await db("users").where({id: userId }).first();
+};
