@@ -5,7 +5,7 @@ export default function SignUpScreen() {
   return (
     <View>
       <Text style={{color:"#ffffff"}}>Sign up</Text>
-      <Link href="/login"><Text style={{color:"#ffffff"}}>Login</Text></Link> 
+      <Link href="/signin"><Text style={{color:"#ffffff"}}>Login</Text></Link> 
     </View>
   );
 }
