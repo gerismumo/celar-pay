@@ -9,35 +9,55 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
+  const themeColor = Colors[colorScheme ?? 'light']
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
-          default: {},
+          default: {
+          },
         }),
+        tabBarLabelStyle : {
+          color: themeColor.text,
+          fontSize: 13,
+          fontWeight: "700"
+        },
+        animation: 'none',
+        tabBarHideOnKeyboard: true
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          headerShown: true,
+
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="send-payment"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Payment',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="creditcard" color={color} />,
+           headerShown: true,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+           headerShown: true,
         }}
       />
     </Tabs>
