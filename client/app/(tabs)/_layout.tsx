@@ -1,63 +1,68 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import React from "react";
+import { Platform } from "react-native";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from "@/components/HapticTab";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import TabBarBackground from "@/components/ui/TabBarBackground";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
-  const themeColor = Colors[colorScheme ?? 'light']
+  const colorScheme = useColorScheme();
+  const themeColor = Colors[colorScheme ?? "light"];
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            position: 'absolute',
+            position: "absolute",
           },
-          default: {
-          },
+          default: {},
         }),
-        tabBarLabelStyle : {
+        tabBarLabelStyle: {
           color: themeColor.text,
           fontSize: 13,
-          fontWeight: "700"
+          fontWeight: "700",
         },
-        animation: 'none',
-        tabBarHideOnKeyboard: true
-      }}>
+        animation: "none",
+        tabBarHideOnKeyboard: true,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
           headerShown: true,
-
         }}
       />
       <Tabs.Screen
         name="send-payment"
         options={{
-          title: 'Payment',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="creditcard" color={color} />,
-           headerShown: true,
+          title: "Payment",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="creditcard" color={color} />
+          ),
+          headerShown: true,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
-           headerShown: true,
+          title: "Settings",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="gear" color={color} />
+          ),
+          headerShown: true,
         }}
       />
     </Tabs>
