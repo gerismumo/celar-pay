@@ -10,91 +10,91 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowRight, Shield, Zap, Globe } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
+import MainContainer from "@/components/MainContainer";
 
-
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen() {
-
   const features = [
     {
       icon: <Zap size={20} color={Colors.secondary} />,
       title: "Lightning Fast",
-      description: "Process payments in milliseconds"
+      description: "Process payments in milliseconds",
     },
     {
       icon: <Shield size={20} color={Colors.secondary} />,
       title: "Bank-Grade Security",
-      description: "Your data is protected with enterprise security"
+      description: "Your data is protected with enterprise security",
     },
     {
       icon: <Globe size={20} color={Colors.secondary} />,
       title: "Global Reach",
-      description: "Accept payments from anywhere in the world"
-    }
+      description: "Accept payments from anywhere in the world",
+    },
   ];
 
   return (
-    <View style={styles.container}>
-      <LinearGradient
-        colors={[Colors.primaryLight, Colors.primary, Colors.primaryDark]}
-        style={styles.gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <View style={styles.content}>
-          <View style={styles.header}>
-            <View style={styles.logoContainer}>
-              <Image
-                source={require("@/assets/images/logo.jpeg")}
-                style={styles.logo}
-              />
-              <View style={styles.logoGlow} />
+    <LinearGradient
+      colors={[Colors.primaryLight, Colors.primary, Colors.primaryDark]}
+      style={styles.gradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
+      <MainContainer backgroundColor="transparent">
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <View style={styles.header}>
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require("@/assets/images/logo.jpeg")}
+                  style={styles.logo}
+                />
+                <View style={styles.logoGlow} />
+              </View>
+              <Text style={styles.title}>Celar Pay</Text>
+              <Text style={styles.tagline}>Empowering Your Finances</Text>
             </View>
-            <Text style={styles.title}>Celar Pay</Text>
-            <Text style={styles.tagline}>Empowering Your Finances</Text>
-          </View>
-          <View style={styles.mainContent}>
-            <Text style={styles.subtitle}>
-              Fast, secure, and simple payments for developers & PSPs.
-            </Text>
-            <View style={styles.featuresContainer}>
-              {features.map((feature, index) => (
-                <View key={index} style={styles.featureItem}>
-                  <View style={styles.featureIcon}>
-                    {feature.icon}
+            <View style={styles.mainContent}>
+              <Text style={styles.subtitle}>
+                Fast, secure, and simple payments for developers & PSPs.
+              </Text>
+              <View style={styles.featuresContainer}>
+                {features.map((feature, index) => (
+                  <View key={index} style={styles.featureItem}>
+                    <View style={styles.featureIcon}>{feature.icon}</View>
+                    <View style={styles.featureText}>
+                      <Text style={styles.featureTitle}>{feature.title}</Text>
+                      <Text style={styles.featureDescription}>
+                        {feature.description}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.featureText}>
-                    <Text style={styles.featureTitle}>{feature.title}</Text>
-                    <Text style={styles.featureDescription}>{feature.description}</Text>
-                  </View>
-                </View>
-              ))}
+                ))}
+              </View>
+              <Link href="/(auth)/login" asChild>
+                <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
+                  <LinearGradient
+                    colors={[Colors.secondary, Colors.secondaryDark]}
+                    style={styles.buttonGradient}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <Text style={styles.buttonText}>Get Started</Text>
+                    <ArrowRight size={20} color={Colors.accent} />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </Link>
+              <Text style={styles.footerText}>
+                Join thousands of developers and PSPs worldwide
+              </Text>
             </View>
-            <Link href="/(auth)/login" asChild>
-              <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
-                <LinearGradient
-                  colors={[Colors.secondary, Colors.secondaryDark]}
-                  style={styles.buttonGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text style={styles.buttonText}>Get Started</Text>
-                  <ArrowRight size={20} color={Colors.accent} />
-                </LinearGradient>
-              </TouchableOpacity>
-            </Link>
-
-            <Text style={styles.footerText}>
-              Join thousands of developers and PSPs worldwide
-            </Text>
           </View>
+          <View style={styles.decoration1} />
+          <View style={styles.decoration2} />
+          <View style={styles.decoration3} />
         </View>
-        <View style={styles.decoration1} />
-        <View style={styles.decoration2} />
-        <View style={styles.decoration3} />
-      </LinearGradient>
-    </View>
+      </MainContainer>
+    </LinearGradient>
   );
 }
 
@@ -104,21 +104,21 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   content: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 20,
     zIndex: 1,
   },
   header: {
-    alignItems: 'center',
-    marginBottom: 40,
+    alignItems: "center",
+    marginBottom: 30,
   },
   logoContainer: {
-    position: 'relative',
+    position: "relative",
     marginBottom: 20,
   },
   logo: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   logoGlow: {
-    position: 'absolute',
+    position: "absolute",
     top: -10,
     left: -10,
     right: -10,
@@ -146,54 +146,54 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 42,
-    fontWeight: '800',
+    fontWeight: "800",
     color: Colors.textLight,
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
     letterSpacing: -1,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
   },
   tagline: {
     fontSize: 16,
     color: Colors.purple[100],
-    fontWeight: '500',
+    fontWeight: "500",
     letterSpacing: 0.5,
   },
   mainContent: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   subtitle: {
     fontSize: 20,
     color: Colors.textLight,
-    textAlign: 'center',
-    marginBottom: 40,
+    textAlign: "center",
+    marginBottom: 20,
     lineHeight: 28,
-    fontWeight: '400',
+    fontWeight: "400",
     opacity: 0.9,
   },
   featuresContainer: {
-    marginBottom: 50,
+    marginBottom: 20,
   },
   featureItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    padding: 12,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   featureIcon: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(252, 199, 55, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(252, 199, 55, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   featureText: {
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   featureTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.textLight,
     marginBottom: 4,
   },
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   ctaButton: {
     borderRadius: 20,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 20,
     shadowColor: Colors.accent,
     shadowOffset: { width: 0, height: 4 },
@@ -221,53 +221,53 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   buttonGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 18,
     paddingHorizontal: 32,
   },
   buttonText: {
     color: Colors.accent,
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
     marginRight: 8,
     letterSpacing: 0.5,
   },
   footerText: {
     fontSize: 14,
     color: Colors.purple[100],
-    textAlign: 'center',
+    textAlign: "center",
     opacity: 0.7,
   },
   decoration1: {
-    position: 'absolute',
+    position: "absolute",
     top: 100,
     right: -50,
     width: 200,
     height: 200,
     borderRadius: 100,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
     zIndex: 0,
   },
   decoration2: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 200,
     left: -80,
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: 'rgba(252, 199, 55, 0.1)',
+    backgroundColor: "rgba(252, 199, 55, 0.1)",
     zIndex: 0,
   },
   decoration3: {
-    position: 'absolute',
+    position: "absolute",
     top: height * 0.3,
     left: width * 0.8,
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: "rgba(255, 255, 255, 0.03)",
     zIndex: 0,
   },
 });
