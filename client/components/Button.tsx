@@ -1,11 +1,18 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Colors } from '@/constants/Colors';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   isLoading?: boolean;
   testID?: string;
   icon?: React.ReactNode;
@@ -13,7 +20,6 @@ interface ButtonProps extends TouchableOpacityProps {
 
 const Button: React.FC<ButtonProps> = ({
   title,
-  variant = 'primary',
   isLoading = false,
   style,
   disabled,
@@ -21,121 +27,38 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   ...props
 }) => {
-  const { colors, isDark } = useTheme();
-
-  const getButtonContent = () => {
-    const textStyle = getTextStyle();
-    const content = (
-      <>
-        {icon && <>{icon}</>}
-        {isLoading ? (
-          <ActivityIndicator 
-            color={variant === 'outline' || variant === 'ghost' ? colors.primary : colors.textLight} 
-            size="small"
-          />
-        ) : (
-          <Text style={[textStyle, disabled && styles.disabledText]}>
-            {title}
-          </Text>
-        )}
-      </>
-    );
-
-    if (variant === 'primary' && !disabled) {
-      return (
-        <LinearGradient
-          colors={[colors.primary, colors.primaryDark]}
-          style={[styles.button, styles.gradientButton]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          {content}
-        </LinearGradient>
-      );
-    }
-
-    return content;
-  };
-
-  const getButtonStyle = () => {
-    const baseStyle = [styles.button];
-    
-    switch (variant) {
-      case 'secondary':
-        return [
-          ...baseStyle,
-          styles.secondaryButton,
-          { backgroundColor: isDark ? colors.gray[700] : colors.gray[100] }
-        ];
-      case 'outline':
-        return [
-          ...baseStyle,
-          styles.outlineButton,
-          { 
-            borderColor: colors.primary,
-            backgroundColor: 'transparent'
-          }
-        ];
-      case 'ghost':
-        return [
-          ...baseStyle,
-          styles.ghostButton,
-          { backgroundColor: 'transparent' }
-        ];
-      case 'primary':
-      default:
-        if (disabled) {
-          return [
-            ...baseStyle,
-            styles.primaryButton,
-            { backgroundColor: isDark ? colors.gray[700] : colors.gray[300] }
-          ];
-        }
-        return [...baseStyle, styles.primaryButton];
-    }
-  };
-
-  const getTextStyle = () => {
-    switch (variant) {
-      case 'outline':
-      case 'ghost':
-        return [styles.buttonText, { color: colors.primary }];
-      case 'secondary':
-        return [styles.buttonText, { color: isDark ? colors.current.text : colors.text }];
-      case 'primary':
-      default:
-        return [styles.buttonText, { color: colors.textLight }];
-    }
-  };
-
-  if (variant === 'primary' && !disabled) {
-    return (
-      <TouchableOpacity
-        style={[getButtonStyle(), style]}
-        disabled={disabled || isLoading}
-        testID={testID}
-        {...props}
-      >
-        {getButtonContent()}
-      </TouchableOpacity>
-    );
-  }
+  const { isDark } = useTheme();
 
   return (
     <TouchableOpacity
-      style={[getButtonStyle(), disabled && styles.disabledButton, style]}
+      activeOpacity={0.8}
       disabled={disabled || isLoading}
+      style={[disabled && styles.disabledButton, style]}
       testID={testID}
       {...props}
     >
-      {getButtonContent()}
+      <LinearGradient
+        colors={[Colors.secondary, Colors.secondaryDark]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={[styles.button, disabled && styles.disabledGradient]}
+      >
+        {isLoading ? (
+          <ActivityIndicator color={Colors.accent} size="small" />
+        ) : (
+          <View style={styles.content}>
+            {icon && <View style={styles.icon}>{icon}</View>}
+            <Text style={styles.buttonText}>{title}</Text>
+          </View>
+        )}
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    height: 56,
+    height: 50,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -147,40 +70,26 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  gradientButton: {
-    shadowColor: '#9929EA',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
-  primaryButton: {
-    backgroundColor: '#9929EA',
-  },
-  secondaryButton: {
-    shadowOpacity: 0.05,
-  },
-  outlineButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  ghostButton: {
-    backgroundColor: 'transparent',
-    shadowOpacity: 0,
-    elevation: 0,
+  icon: {
+    marginRight: 2,
+    color: Colors.accent,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     letterSpacing: 0.5,
+    color: Colors.accent,
   },
   disabledButton: {
     opacity: 0.6,
   },
-  disabledText: {
-    opacity: 0.6,
+  disabledGradient: {
+    opacity: 0.7,
   },
 });
 
