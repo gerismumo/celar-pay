@@ -1,9 +1,8 @@
-import {  Text, View } from "react-native";
+import App from "@/screens/SendPayment/App";
+
 
 export default function SendPaymentScreen() {
   return (
-    <View>
-      <Text style={{color:"#ffffff"}}>Send Payment</Text>
-    </View>
+    <App/>
   );
 }

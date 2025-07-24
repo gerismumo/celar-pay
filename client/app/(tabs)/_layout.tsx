@@ -8,6 +8,7 @@ import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import Header from "@/screens/Transactions/Header";
+import PaymentHeader from "@/screens/SendPayment/Header";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -55,6 +56,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="creditcard" color={color} />
           ),
           headerShown: true,
+          header: () => <PaymentHeader/>,
         }}
       />
       <Tabs.Screen
