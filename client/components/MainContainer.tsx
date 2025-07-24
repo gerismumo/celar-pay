@@ -31,15 +31,19 @@ const MainContainer: React.FC<MainContainerProps> = ({
         { backgroundColor: backgroundColor || themeBackground },
       ]}
     >
-      <ScrollView showsVerticalScrollIndicator={false} >
-        <KeyboardAvoidingView
-          style={styles.keyboardAvoiding}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoiding}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           <Toast position="top" />
           <View style={[styles.content, contentStyle]}>{children}</View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -55,7 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
-  
 });
 
 export default MainContainer;
