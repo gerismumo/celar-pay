@@ -20,14 +20,17 @@ const mockLogin = async (email: string, password: string): Promise<User> => {
   };
 };
 
-const mockSignup = async (email: string, password: string): Promise<User> => {
+const mockSignup = async (email: string, password: string, role:string): Promise<User> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   if (!email || !password) {
     throw new Error("Email and password are required");
   }
 
-  const role = email.includes("psp") ? "psp" : "dev";
+  if (!role || (role !== "psp" && role !== "dev")) {
+    throw new Error("Role must be either 'psp' or 'dev'");
+  }
+
   return {
     id: "123",
     email,
@@ -76,11 +79,11 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
     }
   };
 
-  const signup = async (email: string, password: string) => {
+  const signup = async (email: string, password: string, role:string) => {
     setIsLoading(true);
     setError(null);
     try {
-      const userData = await mockSignup(email, password);
+      const userData = await mockSignup(email, password, role);
       setUser(userData);
       await AsyncStorage.setItem("user", JSON.stringify(userData));
       router.replace("/(tabs)");

@@ -1,9 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { Link } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Mail, Lock, ArrowRight } from "lucide-react-native";
+import { Mail, Lock, ArrowRight, Building2, Code } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
@@ -30,12 +38,16 @@ const signupSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
+  role: Yup.string()
+    .oneOf(["psp", "dev"], "Please select a valid role")
+    .required("Please select your role"),
 });
 
 interface SignupFormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  role: "psp" | "dev";
 }
 
 const App = () => {
@@ -46,7 +58,7 @@ const App = () => {
 
   const handleSignup = async (values: SignupFormValues) => {
     try {
-      await signup(values.email, values.password);
+      await signup(values.email, values.password, values.role);
       showToast("success", "Account created successfully!");
     } catch (error) {
       showToast(
@@ -94,7 +106,12 @@ const App = () => {
           </View>
 
           <Formik
-            initialValues={{ email: "", password: "", confirmPassword: "" }}
+            initialValues={{
+              email: "",
+              password: "",
+              confirmPassword: "",
+              role: "" as "psp" | "dev",
+            }}
             validationSchema={signupSchema}
             onSubmit={handleSignup}
           >
@@ -105,8 +122,131 @@ const App = () => {
               values,
               errors,
               touched,
+              setFieldValue,
             }) => (
               <View style={styles.formContainer}>
+                <View style={styles.roleContainer}>
+                  <Text
+                    style={[
+                      styles.roleLabel,
+                      { color: isDark ? colors.current.text : colors.text },
+                    ]}
+                  >
+                    Select Your Role
+                  </Text>
+                  <Text
+                    style={[
+                      styles.roleDescription,
+                      {
+                        color: isDark ? colors.gray[400] : colors.textSecondary,
+                      },
+                    ]}
+                  >
+                    Choose the option that best describes you
+                  </Text>
+
+                  <View style={styles.roleOptions}>
+                    <TouchableOpacity
+                      style={[
+                        styles.roleOption,
+                        {
+                          backgroundColor:
+                            values.role === "psp"
+                              ? colors.primary
+                              : isDark
+                              ? colors.gray[800]
+                              : colors.card,
+                          borderColor:
+                            values.role === "psp"
+                              ? colors.primary
+                              : isDark
+                              ? colors.gray[700]
+                              : colors.border,
+                        },
+                      ]}
+                      onPress={() => setFieldValue("role", "psp")}
+                      testID="psp-role-button"
+                    >
+                      <Building2
+                        size={24}
+                        color={
+                          values.role === "psp"
+                            ? colors.textLight
+                            : colors.primary
+                        }
+                      />
+                      <Text
+                        style={[
+                          styles.roleOptionDescription,
+                          {
+                            color:
+                              values.role === "psp"
+                                ? colors.textLight
+                                : isDark
+                                ? colors.gray[400]
+                                : colors.textSecondary,
+                          },
+                        ]}
+                      >
+                        Payment Service Provider
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.roleOption,
+                        {
+                          backgroundColor:
+                            values.role === "dev"
+                              ? colors.primary
+                              : isDark
+                              ? colors.gray[800]
+                              : colors.card,
+                          borderColor:
+                            values.role === "dev"
+                              ? colors.primary
+                              : isDark
+                              ? colors.gray[700]
+                              : colors.border,
+                        },
+                      ]}
+                      onPress={() => setFieldValue("role", "dev")}
+                      testID="dev-role-button"
+                    >
+                      <Code
+                        size={24}
+                        color={
+                          values.role === "dev"
+                            ? colors.textLight
+                            : colors.primary
+                        }
+                      />
+
+                      <Text
+                        style={[
+                          styles.roleOptionDescription,
+                          {
+                            color:
+                              values.role === "dev"
+                                ? colors.textLight
+                                : isDark
+                                ? colors.gray[400]
+                                : colors.textSecondary,
+                          },
+                        ]}
+                      >
+                        Developer
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  {touched.role && errors.role && (
+                    <Text style={[styles.errorText, { color: colors.error }]}>
+                      {errors.role}
+                    </Text>
+                  )}
+                </View>
+
                 <Input
                   label="Email Address"
                   placeholder="Enter your email"
@@ -267,7 +407,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   formContainer: {
-    marginBottom: 32,
+    marginBottom: 20,
   },
   termsContainer: {
     marginBottom: 24,
@@ -291,6 +431,51 @@ const styles = StyleSheet.create({
   loginLink: {
     fontSize: 14,
     fontWeight: "600",
+  },
+  roleContainer: {
+    marginBottom: 24,
+  },
+  roleLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  roleDescription: {
+    fontSize: 14,
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+  roleOptions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
+    marginTop: 2,
+    width: "100%",
+  },
+  roleOption: {
+    padding: 12,
+    borderWidth: 1,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "48%",
+  },
+  roleOptionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 8,
+    marginBottom: 4,
+    textAlign: "center",
+  },
+  roleOptionDescription: {
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: "center",
+    lineHeight: 16,
+  },
+  errorText: {
+    fontSize: 12,
+    marginTop: 8,
   },
 });
 
