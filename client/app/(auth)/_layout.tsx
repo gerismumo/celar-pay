@@ -1,9 +1,10 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
 
 export default function AuthLayout() {
-  const { colors } = useTheme();
+  const { isDark, colors } = useTheme();
   return (
     <Stack initialRouteName="login" screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -11,9 +12,7 @@ export default function AuthLayout() {
         options={{
           title: "",
           headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.current.background,
-          },
+          headerStyle: getDefaultHeaderStyle(isDark, colors),
         }}
       />
       <Stack.Screen
@@ -21,9 +20,7 @@ export default function AuthLayout() {
         options={{
           title: "",
           headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.current.background,
-          },
+          headerStyle: getDefaultHeaderStyle(isDark, colors),
         }}
       />
     </Stack>

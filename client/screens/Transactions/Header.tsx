@@ -7,13 +7,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Header = () => {
   const { colors, isDark } = useTheme();
   const router = useRouter();
-
+  const backgroundColor = colors?.current?.background || colors.background;
   return (
-    <SafeAreaView edges={["top"]}>
+    <SafeAreaView edges={["top"]} style={{ backgroundColor }}>
       <View
         style={[
           styles.header,
-          { borderBottomColor: isDark ? colors.gray[800] : colors.border },
+          {
+            borderBottomColor: isDark ? colors.gray[800] : colors.border,
+          },
         ]}
       >
         <Text

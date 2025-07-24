@@ -177,7 +177,11 @@ const App = () => {
       ))}
 
       <TouchableOpacity
-        style={[styles.settingItem, styles.logoutButton]}
+        style={[
+          styles.settingItem,
+          styles.logoutButton,
+          { borderBottomColor: isDark ? colors.gray[800] : colors.border },
+        ]}
         onPress={handleLogout}
         testID="logout-button"
       >

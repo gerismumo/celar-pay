@@ -9,10 +9,13 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import Header from "@/screens/Transactions/Header";
 import PaymentHeader from "@/screens/SendPayment/Header";
+import { useTheme } from "@/contexts/ThemeContext";
+import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const themeColor = Colors[colorScheme ?? "light"];
+  const { colors, isDark } = useTheme();
 
   return (
     <Tabs
@@ -56,7 +59,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="creditcard" color={color} />
           ),
           headerShown: true,
-          header: () => <PaymentHeader/>,
+          header: () => <PaymentHeader />,
         }}
       />
       <Tabs.Screen
@@ -67,6 +70,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="gear" color={color} />
           ),
           headerShown: true,
+          headerStyle:  getDefaultHeaderStyle(isDark, colors)
         }}
       />
     </Tabs>

@@ -3,15 +3,21 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { ArrowLeft } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 const PaymentHeader = () => {
   const { colors, isDark } = useTheme();
   const router = useRouter();
+
+  const backgroundColor = colors?.current?.background || colors.background;
+
   return (
-    <SafeAreaView edges={["top"]}>
+    <SafeAreaView edges={["top"]} style={{ backgroundColor }}>
       <View
         style={[
           styles.header,
-          { borderBottomColor: isDark ? colors.gray[800] : colors.border },
+          {
+            borderBottomColor: isDark ? colors.gray[800] : colors.border,
+          },
         ]}
       >
         <TouchableOpacity
@@ -52,6 +58,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "600",
-  }
+  },
 });
+
 export default PaymentHeader;
