@@ -16,6 +16,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import MainContainer from "@/components/MainContainer";
+import { useHeaderHeight } from '@react-navigation/elements';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -41,6 +42,7 @@ const App = () => {
   const { login, isLoading } = useAuth();
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
+  const headerHeight = useHeaderHeight();
 
   const handleLogin = async (values: LoginFormValues) => {
     try {
@@ -63,7 +65,7 @@ const App = () => {
       }
       style={styles.gradient}
     >
-      <MainContainer backgroundColor="transparent" contentStyle={{padding: 20}}>
+      <MainContainer backgroundColor="transparent" contentStyle={{padding: 20,paddingTop: headerHeight}}>
         <View>
           <View style={styles.header}>
             <View

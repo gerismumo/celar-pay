@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -16,6 +11,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import MainContainer from "@/components/MainContainer";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 const signupSchema = Yup.object().shape({
   email: Yup.string()
@@ -45,6 +41,7 @@ const App = () => {
   const { signup, isLoading } = useAuth();
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
+  const headerHeight = useHeaderHeight();
 
   const handleSignup = async (values: SignupFormValues) => {
     try {
@@ -67,7 +64,10 @@ const App = () => {
       }
       style={styles.gradient}
     >
-      <MainContainer backgroundColor="transparent" contentStyle={{padding: 20}}>
+      <MainContainer
+        backgroundColor="transparent"
+        contentStyle={{ padding: 20, paddingTop: headerHeight }}
+      >
         <View>
           <View style={styles.header}>
             <View

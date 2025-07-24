@@ -12,7 +12,7 @@ export default function AuthLayout() {
         options={{
           title: "",
           headerShown: true,
-          headerStyle: getDefaultHeaderStyle(isDark, colors),
+          headerTransparent: true,
         }}
       />
       <Stack.Screen
@@ -20,7 +20,7 @@ export default function AuthLayout() {
         options={{
           title: "",
           headerShown: true,
-          headerStyle: getDefaultHeaderStyle(isDark, colors),
+          headerTransparent: true,
         }}
       />
     </Stack>
