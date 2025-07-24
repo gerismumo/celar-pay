@@ -3,10 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
+  TouchableOpacity
 } from "react-native";
 import { Link } from "expo-router";
 import { Formik } from "formik";

@@ -1,8 +1,18 @@
 import express from "express";
 import authRoutes from "./modules/auth/auth.routes";
 import txRoutes from "./modules/transaction/transaction.routes";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
 //link routes here
