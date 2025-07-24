@@ -12,6 +12,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import MainContainer from "@/components/MainContainer";
 import { useHeaderHeight } from "@react-navigation/elements";
+import { Image } from "expo-image";
 
 const signupSchema = Yup.object().shape({
   email: Yup.string()
@@ -70,14 +71,10 @@ const App = () => {
       >
         <View>
           <View style={styles.header}>
-            <View
-              style={[
-                styles.logoContainer,
-                { backgroundColor: colors.primary },
-              ]}
-            >
-              <Text style={styles.logoText}>CP</Text>
-            </View>
+            <Image
+              source={require("@/assets/images/logo.jpeg")}
+              style={styles.logoContainer}
+            />
             <Text
               style={[
                 styles.title,
