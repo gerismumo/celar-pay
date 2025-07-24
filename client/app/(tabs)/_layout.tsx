@@ -1,27 +1,22 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
-
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import Header from "@/screens/Transactions/Header";
 import PaymentHeader from "@/screens/SendPayment/Header";
 import { useTheme } from "@/contexts/ThemeContext";
 import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const themeColor = Colors[colorScheme ?? "light"];
   const { colors, isDark } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        tabBarInactiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: colors.secondaryDark,
+        tabBarInactiveTintColor: colors.current.tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -32,7 +27,7 @@ export default function TabLayout() {
           default: {},
         }),
         tabBarLabelStyle: {
-          color: themeColor.text,
+          color: colors.current.text,
           fontSize: 13,
           fontWeight: "700",
         },
@@ -70,7 +65,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="gear" color={color} />
           ),
           headerShown: true,
-          headerStyle:  getDefaultHeaderStyle(isDark, colors)
+          headerStyle: getDefaultHeaderStyle(isDark, colors),
         }}
       />
     </Tabs>
