@@ -3,10 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 import { CreateUserInput } from "../../shared/types/user";
 
 export const createUser = async (user: CreateUserInput) => {
-  await db("users").insert({
+  const addedUser = await db("users").insert({
     id: uuidv4(),
     ...user,
-  });
+  }).returning('id');
+
+  return addedUser[0]
 };
 export const findUserByEmail = async (email: string) => {
   return await db("users").where({ email }).first();

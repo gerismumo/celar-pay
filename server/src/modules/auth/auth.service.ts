@@ -49,7 +49,30 @@ export const signup = async (data: {
   if (user) throw new Error("User already exists");
 
   const hash = await bcrypt.hash(password, 10);
-  await createUser({ email, password: hash, role: role as UserRole });
+
+  const createdUserId = await createUser({
+    email,
+    password: hash,
+    role: role as UserRole,
+  });
+
+  if (!createdUserId) {
+    throw new Error("Internal server error");
+  }
+
+  const token = signToken({
+    id: createdUserId.id,
+    role,
+    email,
+  });
+  return {
+    access_token: token,
+    user: {
+      id: createdUserId.id,
+      role,
+      email,
+    },
+  };
 };
 
 export const login = async (data: { email?: string; password?: string }) => {
@@ -83,5 +106,12 @@ export const login = async (data: { email?: string; password?: string }) => {
   await updateLoggedInAt(user.id);
 
   const token = signToken({ id: user.id, role: user.role, email: user.email });
-  return { access_token: token };
+  return {
+    access_token: token,
+    user: {
+      id: user.id,
+      role: user.role,
+      email: user.email,
+    },
+  };
 };
