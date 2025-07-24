@@ -2,9 +2,17 @@ import db from "../../db/knex";
 import { v4 as uuidv4 } from "uuid";
 
 export const getTransactionsForUser = async (userId: number) => {
-  return await db("transactions").where({ userId });
+  try {
+    return await db("transactions").where({ userId });
+  } catch (error: any) {
+    throw new Error("Internal server error");
+  }
 };
 
 export const createTransaction = async (tx: any) => {
-  await db("transactions").insert({ id: uuidv4(), ...tx });
+  try {
+    await db("transactions").insert({ id: uuidv4(), ...tx });
+  } catch (error: any) {
+    throw new Error("Internal server error");
+  }
 };

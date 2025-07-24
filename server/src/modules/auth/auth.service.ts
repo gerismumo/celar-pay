@@ -13,105 +13,117 @@ export const signup = async (data: {
   password?: string;
   role?: string;
 }) => {
-  if (!data) {
-    throw new Error("Input data is required");
-  }
+  try {
+    if (!data) {
+      throw new Error("Input data is required");
+    }
 
-  const allowedKeys = ["email", "password", "role"];
-  const extraKeys = Object.keys(data).filter(
-    (key) => !allowedKeys.includes(key)
-  );
-  if (extraKeys.length > 0) {
-    throw new Error(`Invalid input keys: ${extraKeys.join(", ")}`);
-  }
-
-  const { email, password, role } = data;
-
-  if (!email || !password || !role) {
-    throw new Error("All fields are required");
-  }
-
-  if (!isValidEmail(email)) {
-    throw new Error("Invalid email format");
-  }
-
-  if (!isStrongPassword(password)) {
-    throw new Error(
-      "Password must be at least 6 characters long, contain at least one digit and one special character"
+    const allowedKeys = ["email", "password", "role"];
+    const extraKeys = Object.keys(data).filter(
+      (key) => !allowedKeys.includes(key)
     );
-  }
+    if (extraKeys.length > 0) {
+      throw new Error(`Invalid input keys: ${extraKeys.join(", ")}`);
+    }
 
-  if (!validRoles.includes(role as UserRole)) {
-    throw new Error("Invalid role");
-  }
+    const { email, password, role } = data;
 
-  const user = await findUserByEmail(email);
-  if (user) throw new Error("User already exists");
+    if (!email || !password || !role) {
+      throw new Error("All fields are required");
+    }
 
-  const hash = await bcrypt.hash(password, 10);
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email format");
+    }
 
-  const createdUserId = await createUser({
-    email,
-    password: hash,
-    role: role as UserRole,
-  });
+    if (!isStrongPassword(password)) {
+      throw new Error(
+        "Password must be at least 6 characters long, contain at least one digit and one special character"
+      );
+    }
 
-  if (!createdUserId) {
-    throw new Error("Internal server error");
-  }
+    if (!validRoles.includes(role as UserRole)) {
+      throw new Error("Invalid role");
+    }
 
-  const token = signToken({
-    id: createdUserId.id,
-    role,
-    email,
-  });
-  return {
-    access_token: token,
-    user: {
+    const user = await findUserByEmail(email);
+    if (user) throw new Error("User already exists");
+
+    const hash = await bcrypt.hash(password, 10);
+
+    const createdUserId = await createUser({
+      email,
+      password: hash,
+      role: role as UserRole,
+    });
+
+    if (!createdUserId) {
+      throw new Error("Internal server error");
+    }
+
+    const token = signToken({
       id: createdUserId.id,
       role,
       email,
-    },
-  };
+    });
+    return {
+      access_token: token,
+      user: {
+        id: createdUserId.id,
+        role,
+        email,
+      },
+    };
+  } catch (error) {
+    throw new Error("Internal server eror");
+  }
 };
 
 export const login = async (data: { email?: string; password?: string }) => {
-  if (!data) {
-    throw new Error("Input data is required");
-  }
+  try {
+    if (!data) {
+      throw new Error("Input data is required");
+    }
 
-  const allowedKeys = ["email", "password"];
-  const extraKeys = Object.keys(data).filter(
-    (key) => !allowedKeys.includes(key)
-  );
-  if (extraKeys.length > 0) {
-    throw new Error(`Invalid input keys: ${extraKeys.join(", ")}`);
-  }
+    const allowedKeys = ["email", "password"];
+    const extraKeys = Object.keys(data).filter(
+      (key) => !allowedKeys.includes(key)
+    );
+    if (extraKeys.length > 0) {
+      throw new Error(`Invalid input keys: ${extraKeys.join(", ")}`);
+    }
 
-  const { email, password } = data;
+    const { email, password } = data;
 
-  if (!email || !password) {
-    throw new Error("All fields are required");
-  }
+    if (!email || !password) {
+      throw new Error("All fields are required");
+    }
 
-  if (!isValidEmail(email)) {
-    throw new Error("Invalid email format");
-  }
-  const user = await findUserByEmail(email);
-  if (!user) throw new Error("User not found");
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email format");
+    }
+    const user = await findUserByEmail(email);
+    if (!user) throw new Error("User not found");
 
-  const isValid = await bcrypt.compare(password, user.password);
-  if (!isValid) throw new Error("Invalid credentials");
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) throw new Error("Invalid credentials");
 
-  await updateLoggedInAt(user.id);
+    await updateLoggedInAt(user.id);
 
-  const token = signToken({ id: user.id, role: user.role, email: user.email });
-  return {
-    access_token: token,
-    user: {
+    const token = signToken({
       id: user.id,
       role: user.role,
       email: user.email,
-    },
-  };
+    });
+    return {
+      access_token: token,
+      user: {
+        id: user.id,
+        role: user.role,
+        email: user.email,
+      },
+    };
+  } catch (error: any) {
+    throw new Error("Internal server eror");
+  }
 };
