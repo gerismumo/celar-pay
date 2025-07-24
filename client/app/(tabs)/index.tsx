@@ -1,9 +1,7 @@
-import {  Text, View } from "react-native";
+import App from "@/screens/Transactions/App";
 
 export default function DashboardScreen() {
   return (
-    <View>
-      <Text style={{color:"#ffffff"}}>Dashboard</Text>
-    </View>
+    <App/>
   );
 }

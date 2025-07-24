@@ -7,6 +7,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import Header from "@/screens/Transactions/Header";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -43,6 +44,7 @@ export default function TabLayout() {
             <IconSymbol size={28} name="house.fill" color={color} />
           ),
           headerShown: true,
+          header: () => <Header />,
         }}
       />
       <Tabs.Screen

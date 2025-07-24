@@ -13,6 +13,7 @@ import {
 } from "@react-navigation/native";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemeProvider as AppThemeProvider } from "@/contexts/ThemeContext";
+import { StatusBar } from 'expo-status-bar';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -42,6 +43,7 @@ export default function RootLayout() {
               <Stack.Screen name="index" />
               <Stack.Screen name="+not-found" />
             </Stack>
+            <StatusBar style="auto" />
           </ToastProvider>
         </AuthProvider>
       </NavigationThemeProvider>
