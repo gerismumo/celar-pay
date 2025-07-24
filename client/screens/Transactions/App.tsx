@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -11,33 +11,35 @@ import { useToast } from "@/contexts/ToastContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Transaction } from "@/types";
-import { Plus } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import TransactionItem from "@/components/TransactionItem";
-import mockTransactions from "@/mocks/transactions";
+import { getTransactions } from "@/services/transactions/api";
+import { useFocusEffect } from "@react-navigation/native";
 
 const App = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
-  const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setTransactions(mockTransactions);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchTransactions = async () => {
+        setIsLoading(true);
+        try {
+          const data = await getTransactions();
+          setTransactions(data.data);
+        } catch (error: any) {
+          showToast("error", error.message || "Failed to fetch transactions");
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-    fetchTransactions();
-  }, []);
+      fetchTransactions();
+    }, [])
+  );
 
   useEffect(() => {
     const checkAndShowRoleToast = async () => {
@@ -69,29 +71,6 @@ const App = () => {
         { backgroundColor: isDark ? colors.backgroundDark : colors.background },
       ]}
     >
-      {/* <View
-        style={[
-          styles.header,
-          { borderBottomColor: isDark ? colors.gray[800] : colors.border },
-        ]}
-      >
-        <Text
-          style={[
-            styles.sectionTitle,
-            { color: isDark ? colors.current.text : colors.text },
-          ]}
-        >
-          Transactions
-        </Text>
-        <TouchableOpacity
-          onPress={() => router.push("/send-payment")}
-          testID="add-payment-button"
-          style={[styles.addButton, { backgroundColor: colors.primary }]}
-        >
-          <Plus color={colors.textLight} size={20} />
-        </TouchableOpacity>
-      </View> */}
-
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <Text
