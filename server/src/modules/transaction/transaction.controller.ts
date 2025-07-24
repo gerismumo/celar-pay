@@ -1,15 +1,13 @@
 import { Response } from "express";
 import * as txService from "./transaction.service";
+import { failure, success } from "../../shared/utils/response";
 
 export const getTransactions = async (req: any, res: Response) => {
   try {
     const transactions = await txService.fetchUserTransactions(req.user.id);
-    res.status(200).json({
-      message: "Fetched successifully",
-      data: transactions,
-    });
+    return success(res, transactions, "Transaction fecthed successiful", 200);
   } catch (err: any) {
-    res.status(400).json({ error: err.message });
+    return failure(res, err.message || "Signup failed", 400);
   }
 };
 
@@ -17,10 +15,8 @@ export const sendPayment = async (req: any, res: Response) => {
   try {
     const data = { ...req.body, userId: req.user.id };
     await txService.sendPayment(data);
-    res.status(201).json({
-      message: "Transaction send successiful",
-    });
+    return success(res, null, "Transaction send successiful", 201);
   } catch (err: any) {
-    res.status(400).json({ error: err.message });
+    return failure(res, err.message || "Signup failed", 400);
   }
 };
