@@ -3,7 +3,7 @@ import React from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function AuthLayout() {
-  const { colors, isDark } = useTheme();
+  const { colors } = useTheme();
   return (
     <Stack initialRouteName="login" screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -18,7 +18,13 @@ export default function AuthLayout() {
       />
       <Stack.Screen
         name="signup"
-        options={{ title: "Sign Up", headerShown: true }}
+        options={{
+          title: "",
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.current.background,
+          },
+        }}
       />
     </Stack>
   );

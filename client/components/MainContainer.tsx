@@ -31,7 +31,7 @@ const MainContainer: React.FC<MainContainerProps> = ({
         { backgroundColor: backgroundColor || themeBackground },
       ]}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} >
         <KeyboardAvoidingView
           style={styles.keyboardAvoiding}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  
 });
 
 export default MainContainer;

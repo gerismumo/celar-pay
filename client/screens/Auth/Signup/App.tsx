@@ -17,7 +17,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import MainContainer from "@/components/MainContainer";
 
-const loginSchema = Yup.object().shape({
+const signupSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Email is required"),
@@ -30,26 +30,30 @@ const loginSchema = Yup.object().shape({
       "Password must contain at least one special character"
     )
     .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
 });
 
-interface LoginFormValues {
+interface SignupFormValues {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 const App = () => {
-  const { login, isLoading } = useAuth();
+  const { signup, isLoading } = useAuth();
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
 
-  const handleLogin = async (values: LoginFormValues) => {
+  const handleSignup = async (values: SignupFormValues) => {
     try {
-      await login(values.email, values.password);
-      showToast("success", "Welcome back!");
+      await signup(values.email, values.password);
+      showToast("success", "Account created successfully!");
     } catch (error) {
       showToast(
         "error",
-        error instanceof Error ? error.message : "Login failed"
+        error instanceof Error ? error.message : "Signup failed"
       );
     }
   };
@@ -80,7 +84,7 @@ const App = () => {
                 { color: isDark ? colors.current.text : colors.text },
               ]}
             >
-              Welcome Back
+              Create Account
             </Text>
             <Text
               style={[
@@ -88,13 +92,14 @@ const App = () => {
                 { color: isDark ? colors.gray[400] : colors.textSecondary },
               ]}
             >
-              Sign in to continue to Celar Pay
+              Join Celar Pay and start managing your finances
             </Text>
           </View>
+
           <Formik
-            initialValues={{ email: "", password: "" }}
-            validationSchema={loginSchema}
-            onSubmit={handleLogin}
+            initialValues={{ email: "", password: "", confirmPassword: "" }}
+            validationSchema={signupSchema}
+            onSubmit={handleSignup}
           >
             {({
               handleChange,
@@ -128,12 +133,12 @@ const App = () => {
 
                 <Input
                   label="Password"
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   value={values.password}
                   onChangeText={handleChange("password")}
                   onBlur={handleBlur("password")}
                   secureTextEntry
-                  autoComplete="password"
+                  autoComplete="new-password"
                   error={
                     touched.password && errors.password
                       ? errors.password
@@ -148,26 +153,59 @@ const App = () => {
                   testID="password-input"
                 />
 
-                <TouchableOpacity style={styles.forgotPassword}>
+                <Input
+                  label="Confirm Password"
+                  placeholder="Confirm your password"
+                  value={values.confirmPassword}
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  secureTextEntry
+                  autoComplete="new-password"
+                  error={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? errors.confirmPassword
+                      : undefined
+                  }
+                  icon={
+                    <Lock
+                      size={20}
+                      color={isDark ? colors.gray[400] : colors.gray[500]}
+                    />
+                  }
+                  testID="confirm-password-input"
+                />
+
+                <View style={styles.termsContainer}>
                   <Text
                     style={[
-                      styles.forgotPasswordText,
-                      { color: colors.primary },
+                      styles.termsText,
+                      {
+                        color: isDark ? colors.gray[400] : colors.textSecondary,
+                      },
                     ]}
                   >
-                    Forgot your password?
+                    By creating an account, you agree to our{" "}
+                    <Text style={[styles.termsLink, { color: colors.primary }]}>
+                      Terms of Service
+                    </Text>{" "}
+                    and{" "}
+                    <Text style={[styles.termsLink, { color: colors.primary }]}>
+                      Privacy Policy
+                    </Text>
                   </Text>
-                </TouchableOpacity>
+                </View>
+
                 <Button
-                  title="Sign In"
+                  title="Create Account"
                   onPress={() => handleSubmit()}
                   isLoading={isLoading}
                   icon={<ArrowRight size={20} color={colors.accent} />}
-                  testID="login-button"
+                  testID="signup-button"
                 />
               </View>
             )}
           </Formik>
+
           <View style={styles.footer}>
             <Text
               style={[
@@ -175,12 +213,12 @@ const App = () => {
                 { color: isDark ? colors.gray[400] : colors.textSecondary },
               ]}
             >
-              Don't have an account?{" "}
+              Already have an account?{" "}
             </Text>
-            <Link href="/signup" asChild>
+            <Link href="/login" asChild>
               <TouchableOpacity>
-                <Text style={[styles.signupLink, { color: colors.primary }]}>
-                  Sign up
+                <Text style={[styles.loginLink, { color: colors.primary }]}>
+                  Sign in
                 </Text>
               </TouchableOpacity>
             </Link>
@@ -234,14 +272,16 @@ const styles = StyleSheet.create({
   formContainer: {
     marginBottom: 32,
   },
-  forgotPassword: {
-    alignSelf: "flex-end",
-    marginBottom: 32,
-    marginTop: -10,
+  termsContainer: {
+    marginBottom: 24,
   },
-  forgotPasswordText: {
-    fontSize: 14,
-    fontWeight: "500",
+  termsText: {
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: "center",
+  },
+  termsLink: {
+    fontWeight: "600",
   },
   footer: {
     flexDirection: "row",
@@ -251,7 +291,7 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 14,
   },
-  signupLink: {
+  loginLink: {
     fontSize: 14,
     fontWeight: "600",
   },

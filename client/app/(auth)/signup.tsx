@@ -1,11 +1,7 @@
-import { Link } from "expo-router";
-import {  Text, View } from "react-native";
+import App from "@/screens/Auth/Signup/App";
 
 export default function SignUpScreen() {
   return (
-    <View>
-      <Text style={{color:"#ffffff"}}>Sign up</Text>
-      <Link href="/signin"><Text style={{color:"#ffffff"}}>Login</Text></Link> 
-    </View>
+    <App/>
   );
 }
