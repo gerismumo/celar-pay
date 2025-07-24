@@ -1,17 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Transaction } from "@/types";
-import { useRouter } from "expo-router";
 import TransactionItem from "@/components/TransactionItem";
 import { getTransactions } from "@/services/transactions/api";
 import { useFocusEffect } from "@react-navigation/native";
@@ -42,27 +35,26 @@ const App = () => {
   );
 
   useEffect(() => {
-    const checkAndShowRoleToast = async () => {
-      if (!user) return;
+    if (!user?.id || !user?.role) return;
 
+    const checkAndShowRoleToast = async () => {
       const toastShownKey = `role_toast_shown_${user.id}`;
       const toastShown = await AsyncStorage.getItem(toastShownKey);
-
       if (!toastShown) {
+        await AsyncStorage.setItem(toastShownKey, "true");
+
         setTimeout(() => {
           if (user.role === "psp") {
-            showToast("info", "You have 5 merchants connected");
+            showToast("info", "You have 5 merchants connected", 4000);
           } else if (user.role === "dev") {
-            showToast("info", "You've made 127 API calls this week");
+            showToast("info", "You've made 127 API calls this week", 4000);
           }
-        }, 1500);
-
-        await AsyncStorage.setItem(toastShownKey, "true");
+        }, 1000);
       }
     };
 
     checkAndShowRoleToast();
-  }, [user, showToast]);
+  }, [user?.id, user?.role]);
 
   return (
     <View
