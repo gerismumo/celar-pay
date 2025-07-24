@@ -15,8 +15,9 @@ import { useToast } from "@/contexts/ToastContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { Currency } from "@/types";
+import { Currency, PaymentFormData } from "@/types";
 import CurrencySelector from "@/components/CurrencySelector";
+import { sendPayment } from "@/services/transactions/api";
 
 const paymentSchema = Yup.object().shape({
   recipient: Yup.string()
@@ -28,28 +29,25 @@ const paymentSchema = Yup.object().shape({
   currency: Yup.string().required("Currency is required"),
 });
 
-interface PaymentFormValues {
-  recipient: string;
-  amount: string;
-  currency: string;
-}
-
 const App = () => {
   const router = useRouter();
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
 
-  const handleSendPayment = async (values: PaymentFormValues) => {
+  const handleSendPayment = async (values: PaymentFormData) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      const result = await sendPayment(values);
       showToast(
         "success",
-        `Payment of ${values.currency} ${values.amount} sent to ${values.recipient}`
+        result.message ||
+          `Payment of ${values.currency} ${values.amount} sent to ${values.recipient}`
       );
       router.push("/");
     } catch (error) {
-      showToast("error", "Failed to send payment");
+      showToast(
+        "error",
+        error instanceof Error ? error.message : "Failed to send payment"
+      );
     }
   };
 
