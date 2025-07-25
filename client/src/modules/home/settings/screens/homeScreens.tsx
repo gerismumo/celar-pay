@@ -9,8 +9,8 @@ import {
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowRight, Shield, Zap, Globe } from "lucide-react-native";
-import { Colors } from "@/constants/Colors";
 import MainContainer from "@/src/shared/components/MainContainer";
+import { Colors } from "@/src/shared/constants/Colors";
 
 const { width, height } = Dimensions.get("window");
 

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/src/shared/contexts/ToastContext";
 import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import {
@@ -18,6 +17,7 @@ import {
   CreditCard,
   HelpCircle,
 } from "lucide-react-native";
+import { useAuth } from "../../auth/contexts/authContext";
 
 const App = () => {
   const { user, logout } = useAuth();

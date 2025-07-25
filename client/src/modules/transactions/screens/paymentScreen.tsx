@@ -17,7 +17,8 @@ import Button from "@/src/shared/components/Button";
 import Input from "@/src/shared/components/Input";
 import { Currency, PaymentFormData } from "@/src/shared/types";
 import CurrencySelector from "@/src/shared/components/CurrencySelector";
-import { sendPayment } from "@/services/transactions/api";
+import { sendPayment } from "../api/api";
+
 
 const paymentSchema = Yup.object().shape({
   recipient: Yup.string()

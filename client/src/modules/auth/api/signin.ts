@@ -1,4 +1,4 @@
-import apiClient from "@/services/apiClient";
+import apiClient from "@/src/services/apiClient";
 import { User } from "@/src/shared/types";
 import { SignupResponse } from "../types/types";
 
