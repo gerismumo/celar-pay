@@ -34,7 +34,7 @@ describe("Auth Routes", () => {
         email: "invalid-email",
       });
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "Invalid email format");
+    expect(res.body).toHaveProperty("message", "Invalid email format");
   });
 
   it("should not signup a user with weak password", async () => {
@@ -46,7 +46,7 @@ describe("Auth Routes", () => {
         password: "weak",
       });
     expect(res.status).toBe(400);
-    expect(res.body.error).toMatch(/Password must be at least 6 characters/);
+    expect(res.body.message).toMatch(/Password must be at least 6 characters/);
   });
 
   it("should not signup a user with invalid role", async () => {
@@ -58,13 +58,13 @@ describe("Auth Routes", () => {
         role: "invalid-role",
       });
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "Invalid role");
+    expect(res.body).toHaveProperty("message", "Invalid role");
   });
 
   it("should not signup an already existing user", async () => {
     const res = await request(app).post(`${API_URL}/signup`).send(validUser);
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "User already exists");
+    expect(res.body).toHaveProperty("message", "User already exists");
   });
 
   it("should login an existing user with correct credentials", async () => {
@@ -74,7 +74,7 @@ describe("Auth Routes", () => {
     });
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("message", "Successfully signed in");
-    expect(res.body.token).toHaveProperty("access_token");
+    expect(res.body.data).toHaveProperty("access_token");
   });
 
   it("should not login with wrong password", async () => {
@@ -83,7 +83,7 @@ describe("Auth Routes", () => {
       password: "wrongPassword!@#",
     });
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "Invalid credentials");
+    expect(res.body).toHaveProperty("message", "Invalid credentials");
   });
 
   it("should not login with non-existent email", async () => {
@@ -92,6 +92,6 @@ describe("Auth Routes", () => {
       password: "123456!dd",
     });
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "User not found");
+    expect(res.body).toHaveProperty("message", "User not found");
   });
 });

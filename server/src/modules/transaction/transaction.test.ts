@@ -23,7 +23,7 @@ beforeAll(async () => {
     password: user.password,
   });
 
-  token = loginRes.body.token.access_token;
+  token = loginRes.body.data.access_token;
 });
 
 afterAll(async () => {
@@ -44,7 +44,7 @@ describe("Transaction Routes", () => {
       .post(`${API_URL}/send`)
       .set("Authorization", `Bearer ${token}`)
       .send(paymentData);
-
+console.log(res.body)
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("message", "Transaction send successiful");
   });
@@ -62,7 +62,7 @@ describe("Transaction Routes", () => {
       .send(paymentData);
 
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("error", "Amount must be greater than 0");
+    expect(res.body).toHaveProperty("message", "Amount must be greater than 0");
   });
 
   it("should get user transactions", async () => {
