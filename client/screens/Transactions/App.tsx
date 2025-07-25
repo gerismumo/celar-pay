@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/contexts/ToastContext";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useToast } from "@/src/shared/contexts/ToastContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Transaction } from "@/types";
-import TransactionItem from "@/components/TransactionItem";
+import { Transaction } from "@/src/shared/types";
+import TransactionItem from "@/src/shared/components/TransactionItem";
 import { getTransactions } from "@/services/transactions/api";
 import { useFocusEffect } from "@react-navigation/native";
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import { ChevronDown } from 'lucide-react-native';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useTheme } from '@/src/shared/contexts/ThemeContext';
 
-import { Currency } from '@/types';
-import currencies from '@/constants/currencies';
+import { Currency } from '@/src/shared/types';
+import currencies from '../constants/currencies';
+
 
 interface CurrencySelectorProps {
   value: string;

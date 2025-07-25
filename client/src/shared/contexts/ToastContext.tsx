@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Animated, StyleSheet, View } from "react-native";
-import { ToastMessage } from "@/types";
-import Toast from "@/components/Toast";
+import { ToastMessage } from "@/src/shared/types";
+import Toast from "@/src/shared/components/Toast";
 
 interface ToastContextType {
   showToast: (

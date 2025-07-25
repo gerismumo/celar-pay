@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import { ArrowLeft } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";

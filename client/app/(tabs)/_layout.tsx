@@ -1,12 +1,12 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
-import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
-import TabBarBackground from "@/components/ui/TabBarBackground";
+import { HapticTab } from "@/src/shared/components/HapticTab";
+import { IconSymbol } from "@/src/shared/components/ui/IconSymbol";
+import TabBarBackground from "@/src/shared/components/ui/TabBarBackground";
 import Header from "@/screens/Transactions/Header";
 import PaymentHeader from "@/screens/SendPayment/Header";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
 
 export default function TabLayout() {

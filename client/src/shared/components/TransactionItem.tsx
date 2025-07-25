@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Transaction } from "@/types";
-import { useTheme } from "@/contexts/ThemeContext";
+import { Transaction } from "@/src/shared/types";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import dayjs from "dayjs";
 
 interface TransactionItemProps {

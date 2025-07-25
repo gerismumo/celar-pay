@@ -8,8 +8,8 @@ import {
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useTheme } from '@/contexts/ThemeContext';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '../constants/Colors';
+
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -27,7 +27,6 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   ...props
 }) => {
-  const { isDark } = useTheme();
 
   return (
     <TouchableOpacity

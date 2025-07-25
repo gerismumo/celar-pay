@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
-import { ToastMessage } from '@/types';
-import { useTheme } from '@/contexts/ThemeContext';
+import { ToastMessage } from '@/src/shared/types';
+import { useTheme } from '@/src/shared/contexts/ThemeContext';
 import { AlertCircle, CheckCircle, Info } from 'lucide-react-native';
 
 interface ToastProps {

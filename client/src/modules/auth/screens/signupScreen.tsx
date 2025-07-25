@@ -5,14 +5,15 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Mail, Lock, ArrowRight, Building2, Code } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/contexts/ToastContext";
-import { useTheme } from "@/contexts/ThemeContext";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import MainContainer from "@/components/MainContainer";
+import { useToast } from "@/src/shared/contexts/ToastContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
+import Button from "@/src/shared/components/Button";
+import Input from "@/src/shared/components/Input";
+import MainContainer from "@/src/shared/components/MainContainer";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Image } from "expo-image";
+import { SignupFormValues } from "../types/types";
+import { useAuth } from "../contexts/authContext";
 
 const signupSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,13 +35,6 @@ const signupSchema = Yup.object().shape({
     .oneOf(["psp", "dev"], "Please select a valid role")
     .required("Please select your role"),
 });
-
-interface SignupFormValues {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role: "psp" | "dev";
-}
 
 const App = () => {
   const { signup, isLoading } = useAuth();

@@ -5,14 +5,15 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Mail, Lock, ArrowRight } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/contexts/ToastContext";
-import { useTheme } from "@/contexts/ThemeContext";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import MainContainer from "@/components/MainContainer";
+import { useToast } from "@/src/shared/contexts/ToastContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
+import Button from "@/src/shared/components/Button";
+import Input from "@/src/shared/components/Input";
+import MainContainer from "@/src/shared/components/MainContainer";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Image } from "expo-image";
+import { LoginFormValues } from "../types/types";
+import { useAuth } from "../contexts/authContext";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -29,10 +30,7 @@ const loginSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+
 
 const App = () => {
   const { login, isLoading } = useAuth();

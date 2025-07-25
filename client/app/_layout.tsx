@@ -5,14 +5,14 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { ToastProvider } from "@/contexts/ToastContext";
+import { ToastProvider } from "@/src/shared/contexts/ToastContext";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider as NavigationThemeProvider,
 } from "@react-navigation/native";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { ThemeProvider as AppThemeProvider } from "@/contexts/ThemeContext";
+import { useColorScheme } from "@/src/shared/hooks/useColorScheme";
+import { ThemeProvider as AppThemeProvider } from "@/src/shared/contexts/ThemeContext";
 import { StatusBar } from 'expo-status-bar';
 SplashScreen.preventAutoHideAsync();
 

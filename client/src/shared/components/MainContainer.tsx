@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "toastify-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
 
 interface MainContainerProps {
   children: React.ReactNode;

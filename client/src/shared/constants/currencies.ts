@@ -1,4 +1,4 @@
-import { Currency } from '@/types';
+import { Currency } from '@/src/shared/types';
 
 const currencies: Currency[] = [
   { code: 'KES', name: 'kenya Shillings', symbol: 'KSh' },

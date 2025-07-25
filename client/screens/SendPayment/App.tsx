@@ -11,12 +11,12 @@ import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { User, DollarSign } from "lucide-react-native";
-import { useToast } from "@/contexts/ToastContext";
-import { useTheme } from "@/contexts/ThemeContext";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import { Currency, PaymentFormData } from "@/types";
-import CurrencySelector from "@/components/CurrencySelector";
+import { useToast } from "@/src/shared/contexts/ToastContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
+import Button from "@/src/shared/components/Button";
+import Input from "@/src/shared/components/Input";
+import { Currency, PaymentFormData } from "@/src/shared/types";
+import CurrencySelector from "@/src/shared/components/CurrencySelector";
 import { sendPayment } from "@/services/transactions/api";
 
 const paymentSchema = Yup.object().shape({

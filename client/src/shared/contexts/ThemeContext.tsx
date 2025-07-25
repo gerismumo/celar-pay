@@ -1,6 +1,7 @@
-import { Colors } from '@/constants/Colors';
+
 import createContextHook from '@nkzw/create-context-hook';
 import { useColorScheme } from 'react-native';
+import { Colors } from '../constants/Colors';
 
 
 export const [ThemeProvider, useTheme] = createContextHook(() => {

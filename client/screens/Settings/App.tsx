@@ -7,8 +7,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/contexts/ToastContext";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useToast } from "@/src/shared/contexts/ToastContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import {
   ChevronRight,
   LogOut,

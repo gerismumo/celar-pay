@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import React from "react";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/src/shared/contexts/ThemeContext";
 import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
 
 export default function AuthLayout() {

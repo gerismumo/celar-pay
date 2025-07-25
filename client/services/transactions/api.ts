@@ -1,5 +1,5 @@
 import apiClient from "@/services/apiClient";
-import { PaymentFormData } from "@/types";
+import { PaymentFormData } from "@/src/shared/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const sendPayment = async (paymentData: PaymentFormData) => {

@@ -1,9 +1,10 @@
 import createContextHook from "@nkzw/create-context-hook";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { User } from "@/types";
+import { User } from "@/src/shared/types";
 import { router } from "expo-router";
-import apiClient from "@/services/apiClient";
+import { loginUser } from "../api/login";
+import { signupUser } from "../api/signin";
 
 export const [AuthProvider, useAuth] = createContextHook(() => {
   const [user, setUser] = useState<User | null>(null);
@@ -18,7 +19,7 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
         const storedUser = await AsyncStorage.getItem("user");
         if (storedUser && isMounted) {
           setUser(JSON.parse(storedUser));
-          router.replace("/(tabs)"); 
+          router.replace("/(tabs)");
         }
       } catch (err) {
         console.error("Failed to load user from storage", err);
@@ -38,19 +39,7 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await apiClient.post("/auth/login", {
-        email,
-        password,
-      });
-
-      const { access_token, user } = response.data.data;
-
-      const userData: User = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        token: access_token,
-      };
+      const userData = await loginUser(email, password);
 
       setUser(userData);
       await AsyncStorage.setItem("user", JSON.stringify(userData));
@@ -71,20 +60,7 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await apiClient.post("/auth/signup", {
-        email,
-        password,
-        role,
-      });
-
-      const { access_token, user } = response.data.data;
-
-      const userData: User = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        token: access_token,
-      };
+      const userData = await signupUser(email, password, role);
 
       setUser(userData);
       await AsyncStorage.setItem("user", JSON.stringify(userData));
