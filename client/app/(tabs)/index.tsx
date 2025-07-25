@@ -1,4 +1,4 @@
-import App from "@/screens/Transactions/App";
+import App from "@/src/modules/transactions/screens/transactionScreen";
 
 export default function DashboardScreen() {
   return (

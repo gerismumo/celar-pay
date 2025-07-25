@@ -4,10 +4,11 @@ import { Platform } from "react-native";
 import { HapticTab } from "@/src/shared/components/HapticTab";
 import { IconSymbol } from "@/src/shared/components/ui/IconSymbol";
 import TabBarBackground from "@/src/shared/components/ui/TabBarBackground";
-import Header from "@/screens/Transactions/Header";
-import PaymentHeader from "@/screens/SendPayment/Header";
 import { useTheme } from "@/src/shared/contexts/ThemeContext";
-import { getDefaultHeaderStyle } from "@/constants/defaultHeaderStyle";
+import Header from "@/src/modules/transactions/components/transactionHeader";
+import PaymentHeader from "@/src/modules/transactions/components/paymentHeader";
+import { getDefaultHeaderStyle } from "@/src/shared/constants/defaultHeaderStyle";
+
 
 export default function TabLayout() {
   const { colors, isDark } = useTheme();

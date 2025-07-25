@@ -1,5 +1,4 @@
-import App from "@/screens/SendPayment/App";
-
+import App from "@/src/modules/transactions/screens/paymentScreen";
 
 export default function SendPaymentScreen() {
   return (

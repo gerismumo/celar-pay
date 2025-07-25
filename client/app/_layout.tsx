@@ -1,8 +1,6 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { AuthProvider } from "@/contexts/AuthContext";
-
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { ToastProvider } from "@/src/shared/contexts/ToastContext";
@@ -14,6 +12,7 @@ import {
 import { useColorScheme } from "@/src/shared/hooks/useColorScheme";
 import { ThemeProvider as AppThemeProvider } from "@/src/shared/contexts/ThemeContext";
 import { StatusBar } from 'expo-status-bar';
+import { AuthProvider } from "@/src/modules/auth/contexts/authContext";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
