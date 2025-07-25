@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "start": "nodemon ./src/server.ts",
+    "start:prod": "node dist/src/server.js",
     "migrate": "set NODE_OPTIONS=-r ts-node/register && npx knex --knexfile src/db/knexfile.ts migrate:latest",
     "rollback": "set NODE_OPTIONS=-r ts-node/register && knex --knexfile src/db/knexfile.ts migrate:rollback",
     "seed": "set NODE_OPTIONS=-r ts-node/register && knex --knexfile src/database/knexfile.ts seed:run",
@@ -16,6 +18,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",

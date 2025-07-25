@@ -1,3 +1,4 @@
+import axios from "axios";
 import { IPaymentData } from "../../shared/types/transaction";
 import { findUserById } from "../auth/auth.repository";
 import {
@@ -5,6 +6,7 @@ import {
   createTransaction,
 } from "./transaction.repository";
 
+const WEBHOOK_URL = process.env.WEBHOOK_URL;
 export const fetchUserTransactions = async (userId: number) => {
   if (!userId) {
     throw new Error("Input data is required");
@@ -60,4 +62,21 @@ export const sendPayment = async (data: IPaymentData) => {
   }
 
   await createTransaction(data);
+
+  try {
+    if (!WEBHOOK_URL) {
+      throw new Error("Internal server error");
+    }
+
+    await axios.post(WEBHOOK_URL, {
+      userId,
+      recipient,
+      amount: parsedAmount,
+      currency,
+      timestamp: new Date().toISOString(),
+    });
+    console.log("Webhook triggered successfully.");
+  } catch (error: any) {
+    throw new Error("Internal server error");
+  }
 };
