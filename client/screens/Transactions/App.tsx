@@ -49,7 +49,7 @@ const App = () => {
           } else if (user.role === "dev") {
             showToast("info", "You've made 127 API calls this week", 4000);
           }
-        }, 1000);
+        }, 2000);
       }
     };
 

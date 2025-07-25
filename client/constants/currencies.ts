@@ -1,6 +1,7 @@
 import { Currency } from '@/types';
 
 const currencies: Currency[] = [
+  { code: 'KES', name: 'kenya Shillings', symbol: 'KSh' },
   { code: 'USD', name: 'US Dollar', symbol: '$' },
   { code: 'EUR', name: 'Euro', symbol: '€' },
   { code: 'GBP', name: 'British Pound', symbol: '£' },

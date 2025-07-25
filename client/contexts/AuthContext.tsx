@@ -11,20 +11,27 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadUser = async () => {
       try {
         const storedUser = await AsyncStorage.getItem("user");
-        if (storedUser) {
+        if (storedUser && isMounted) {
           setUser(JSON.parse(storedUser));
+          router.replace("/(tabs)"); 
         }
       } catch (err) {
         console.error("Failed to load user from storage", err);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
 
     loadUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -50,6 +57,7 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
       router.replace("/(tabs)");
       return userData;
     } catch (err: any) {
+      console.log("Login error:", err);
       const errorMessage =
         err.response?.data?.message || "Login failed. Please try again.";
       setError(errorMessage);
@@ -93,6 +101,11 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
   };
 
   const logout = async () => {
+    if (user?.id) {
+      const toastShownKey = `role_toast_shown_${user.id}`;
+      await AsyncStorage.removeItem(toastShownKey);
+    }
+
     setUser(null);
     await AsyncStorage.removeItem("user");
     router.replace("/(auth)/login");

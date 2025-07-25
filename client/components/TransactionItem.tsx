@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Transaction } from "@/types";
 import { useTheme } from "@/contexts/ThemeContext";
+import dayjs from "dayjs";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -59,7 +60,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
             { color: isDark ? colors.gray[400] : colors.textSecondary },
           ]}
         >
-          {timestamp}
+          {dayjs(timestamp).format("MMM D, YYYY h:mm A")}
         </Text>
       </View>
 
@@ -70,7 +71,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
             { color: isDark ? colors.current.text : colors.text },
           ]}
         >
-          ${amount.toFixed(2)}
+          {currency} {amount.toFixed(2)}
         </Text>
       </View>
     </View>
