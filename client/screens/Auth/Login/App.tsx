@@ -40,9 +40,13 @@ const App = () => {
   const { colors, isDark } = useTheme();
   const headerHeight = useHeaderHeight();
 
-  const handleLogin = async (values: LoginFormValues) => {
+  const handleLogin = async (
+    values: LoginFormValues,
+    resetForm: () => void
+  ) => {
     try {
       await login(values.email, values.password);
+      resetForm();
       showToast("success", "Welcome back!");
     } catch (error) {
       showToast(
@@ -91,7 +95,7 @@ const App = () => {
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={loginSchema}
-            onSubmit={handleLogin}
+            onSubmit={(values, { resetForm }) => handleLogin(values, resetForm)}
           >
             {({
               handleChange,

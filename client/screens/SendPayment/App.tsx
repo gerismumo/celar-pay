@@ -34,7 +34,10 @@ const App = () => {
   const { showToast } = useToast();
   const { colors, isDark } = useTheme();
 
-  const handleSendPayment = async (values: PaymentFormData) => {
+  const handleSendPayment = async (
+    values: PaymentFormData,
+    resetForm: () => void
+  ) => {
     try {
       const result = await sendPayment(values);
       showToast(
@@ -42,6 +45,7 @@ const App = () => {
         result.message ||
           `Payment of ${values.currency} ${values.amount} sent to ${values.recipient}`
       );
+      resetForm();
       router.push("/");
     } catch (error) {
       showToast(
@@ -66,7 +70,9 @@ const App = () => {
         <Formik
           initialValues={{ recipient: "", amount: "", currency: "USD" }}
           validationSchema={paymentSchema}
-          onSubmit={handleSendPayment}
+          onSubmit={(values, { resetForm }) =>
+            handleSendPayment(values, resetForm)
+          }
         >
           {({
             handleChange,

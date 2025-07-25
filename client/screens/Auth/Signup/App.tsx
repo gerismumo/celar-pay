@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -53,9 +48,13 @@ const App = () => {
   const { colors, isDark } = useTheme();
   const headerHeight = useHeaderHeight();
 
-  const handleSignup = async (values: SignupFormValues) => {
+  const handleSignup = async (
+    values: SignupFormValues,
+    resetForm: () => void
+  ) => {
     try {
       await signup(values.email, values.password, values.role);
+      resetForm();
       showToast("success", "Account created successfully!");
     } catch (error) {
       showToast(
@@ -110,7 +109,9 @@ const App = () => {
               role: "" as "psp" | "dev",
             }}
             validationSchema={signupSchema}
-            onSubmit={handleSignup}
+            onSubmit={(values, { resetForm }) =>
+              handleSignup(values, resetForm)
+            }
           >
             {({
               handleChange,
