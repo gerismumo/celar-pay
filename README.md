@@ -69,7 +69,7 @@ npx run start
 
 ---
 
-### 🔧 Backend (Node.js + Express + PostgreSQL)
+### Backend (Node.js + Express + PostgreSQL)
 
 #### 1. Install dependencies
 
@@ -269,7 +269,7 @@ Uses `jest` and `supertest` for unit/integration testing.
 
 ## Walkthrough
 
-A 5-minute video demo of the app and API structure is available in the submission (hosted on Loom).
+A 5-minute video demo of the app and API structure is available in the submission [Loom Video](https://www.loom.com/share/84a4d0873025481c80703982f30a5449?sid=b38bacee-440f-40e6-911f-80e24ab25f81).
 
 ---
 
